@@ -27,7 +27,7 @@ const AppointmentForm = () => {
     "Radiology",
     "Physical Therapy",
     "Dermatology",
-    "ENT",
+    ,
   ];
 
   const [doctors, setDoctors] = useState([]);
