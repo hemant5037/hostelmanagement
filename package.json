@@ -1,0 +1,27 @@
+{
+  "name": "hospitalmanagement",
+  "version": "1.0.0",
+  "description": "Hostel Management App",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "frontend": "cd frontend && npm run dev",
+    "backend": "cd backend && node server.js",
+    "dashboard": "cd dashboard && npm run dev",
+    "dev": "concurrently -n \"frontend,backend\" -c \"bgBlue,bgYellow\" \"npm run frontend\" \"npm run backend\"" 
+  },
+  "repository": { 
+    "type": "git",
+    "url": "git+https://github.com/hemant5037/hostelmanagement.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hemant5037/hostelmanagement/issues"
+  },
+  "homepage": "https://github.com/hemant5037/hostelmanagement#readme",
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}

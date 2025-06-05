@@ -1,8 +1,9 @@
 import mongoose from "mongoose";
-//import { Mongoose } from "mongoose";
 import validator from "validator";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
-const appointmentSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
   firstName: {
     type: String,
     required: [true, "First Name Is Required!"],
@@ -21,14 +22,14 @@ const appointmentSchema = new mongoose.Schema({
   phone: {
     type: String,
     required: [true, "Phone Is Required!"],
-    minLength: [10, "Phone Number Must Contain Exact 11 Digits!"],
-    maxLength: [10, "Phone Number Must Contain Exact 11 Digits!"],
+    minLength: [10, "Phone Number Must Contain Exact 10 Digits!"],
+    maxLength: [10, "Phone Number Must Contain Exact 10 Digits!"],
   },
   nic: {
     type: String,
     required: [true, "NIC Is Required!"],
-    minLength: [5, "NIC Must Contain Only 13 Digits!"],
-    maxLength: [5, "NIC Must Contain Only 13 Digits!"],
+    minLength: [5, "NIC Must Contain Only 5 Digits!"],
+    maxLength: [5, "NIC Must Contain Only 5 Digits!"],
   },
   dob: {
     type: Date,
@@ -39,46 +40,41 @@ const appointmentSchema = new mongoose.Schema({
     required: [true, "Gender Is Required!"],
     enum: ["Male", "Female"],
   },
-  appointment_date: {
+  password: {
     type: String,
-    required: [true, "Appointment Date Is Required!"],
+    required: [true, "Password Is Required!"],
+    minLength: [8, "Password Must Contain At Least 8 Characters!"],
+    select: false,//because on fetching all data come but passwod not show because i write here false
   },
-  department: {
+  role: {
     type: String,
-    required: [true, "Department Name Is Required!"],
+    required: [true, "User Role Required!"],
+    enum: ["Patient", "Doctor", "Admin"],//options
   },
-  doctor: {
-    firstName: {
-      type: String,
-      required: [true, "Doctor Name Is Required!"],
-    },
-    lastName: {
-      type: String,
-      required: [true, "Doctor Name Is Required!"],
-    },
-  },
-  hasVisited: {
-    type: Boolean,
-    default: false,
-  },
-  address: {
+  doctorDepartment:{
     type: String,
-    required: [true, "Address Is Required!"],
   },
-  doctorId: {
-    type: mongoose.Schema.ObjectId,
-    required: [true, "Doctor Id Is Invalid!"],
-  },
-  patientId: {
-    type: mongoose.Schema.ObjectId,
-    ref: "User",
-    required: [true, "Patient Id Is Required!"],
-  },
-  status: {
-    type: String,
-    enum: ["Pending", "Accepted", "Rejected"],
-    default: "Pending",
+  docAvatar: {
+    public_id: String,
+    url: String,
   },
 });
 
-export const Appointment = mongoose.model("Appointment", appointmentSchema);
+userSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) {
+    next(); //user ko save krte h tb 
+  }
+  this.password = await bcrypt.hash(this.password, 10);
+});
+
+userSchema.methods.comparePassword = async function (enteredPassword) {
+  return await bcrypt.compare(enteredPassword, this.password);
+};//password compare krenge
+
+userSchema.methods.generateJsonWebToken = function () {
+  return jwt.sign({ id: this._id }, process.env.JWT_SECRET_KEY, {
+    expiresIn: process.env.JWT_EXPIRES, //user sign hone k baad token generate krenge 
+  });
+};
+
+export const User = mongoose.model("User", userSchema);
