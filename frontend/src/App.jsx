@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React from "react";
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
@@ -9,35 +9,14 @@ import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import axios from "axios";
-import { Context } from "./main";
 import Login from "./pages/Login";
+import { AuthProvider } from "./context/AuthContext";
+import AuthCallback from "./pages/AuthCallback";
+
 const App = () => {
-  const { isAuthenticated, setIsAuthenticated, setUser } =
-    useContext(Context); //context api se in 3 cheezo ko liya h humne
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const response = await axios.get(
-          "http://localhost:4000/api/v1/user/patient/me",
-          {
-            withCredentials: true,
-          }
-        );
-        setIsAuthenticated(true);
-        setUser(response.data.user);
-      } catch (error) {
-        setIsAuthenticated(false);
-        setUser({});//make set user an empty when error occurs
-      }
-    };
-    fetchUser();
-  }, [isAuthenticated]);//usehook and pass dependencies
-
   return (
-    <>
-      <Router>
+    <Router>
+      <AuthProvider>
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
@@ -45,11 +24,12 @@ const App = () => {
           <Route path="/about" element={<AboutUs />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/auth/callback" element={<AuthCallback />} />
         </Routes>
         <Footer />
-        <ToastContainer position="top-center" /> 
-      </Router>
-    </>
+        <ToastContainer position="top-center" />
+      </AuthProvider>
+    </Router>
   );
 };
 
