@@ -1,5 +1,6 @@
 import { useNavigate, useLocation } from 'react-router-dom';
 import { FaGoogle } from 'react-icons/fa';
+import { API_ENDPOINTS } from "../config/api";
 
 const GoogleSignIn = () => {
   const navigate = useNavigate();
@@ -9,7 +10,7 @@ const GoogleSignIn = () => {
   const handleGoogleSignIn = () => {
     // Redirect to backend Google auth endpoint with mode parameter
     const mode = isRegisterPage ? 'register' : 'login';
-    window.location.href = `${import.meta.env.VITE_API_URL || 'http://localhost:4000'}/api/auth/google?mode=${mode}`;
+    window.location.href = `${API_ENDPOINTS.GOOGLE_AUTH}?mode=${mode}`;
   };
 
   return (

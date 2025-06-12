@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { toast } from "react-toastify";
+import { API_ENDPOINTS } from "../config/api";
 
 const AppointmentForm = () => {
   const [firstName, setFirstName] = useState("");
@@ -34,7 +35,7 @@ const AppointmentForm = () => {
   useEffect(() => {  // on regreshing the page this useeffect call
     const fetchDoctors = async () => {
       const { data } = await axios.get(
-        "http://localhost:4000/api/v1/user/doctors",
+        API_ENDPOINTS.GET_ALL_DOCTORS,
         { withCredentials: true }
       );
       setDoctors(data.doctors);
@@ -47,7 +48,7 @@ const AppointmentForm = () => {
     try {
       const hasVisitedBool = Boolean(hasVisited);//we convert hasvisited into boolean form
       const { data } = await axios.post(
-        "http://localhost:4000/api/v1/appointment/post",
+        API_ENDPOINTS.CREATE_APPOINTMENT,
         {
           firstName,
           lastName,
