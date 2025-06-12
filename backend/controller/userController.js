@@ -85,6 +85,12 @@ export const addNewAdmin = catchAsyncErrors(async (req, res, next) => {
     return next(new ErrorHandler("Admin With This Email Already Exists!", 400));
   }
 
+  // Check if this is the first admin
+  const isFirstAdmin = await User.findOne({ role: "Admin" });
+  if (!isFirstAdmin && req.originalUrl !== "/api/v1/user/admin/first") {
+    return next(new ErrorHandler("Please use /admin/first route to create the first admin!", 400));
+  }
+
   const admin = await User.create({
     firstName,
     lastName,
@@ -96,11 +102,9 @@ export const addNewAdmin = catchAsyncErrors(async (req, res, next) => {
     password,
     role: "Admin",
   });
-  res.status(200).json({
-    success: true,
-    message: "New Admin Registered",
-    admin,
-  });
+
+  // Generate token for the new admin
+  generateToken(admin, "New Admin Registered Successfully!", 201, res);
 });
 
 export const addNewDoctor = catchAsyncErrors(async (req, res, next) => {

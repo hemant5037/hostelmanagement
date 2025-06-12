@@ -8,7 +8,7 @@
     "frontend": "cd frontend && npm run dev",
     "backend": "cd backend && node server.js",
     "dashboard": "cd dashboard && npm run dev",
-    "dev": "concurrently -n \"frontend,backend\" -c \"bgBlue,bgYellow\" \"npm run frontend\" \"npm run backend\""
+    "dev":"concurrently -n \"frontend,backend,dashboard\" -c \"bgBlue,bgYellow,bgRed\" \"npm run frontend\" \"npm run backend\" \"npm run dashboard\""
   },
   "repository": {
     "type": "git",

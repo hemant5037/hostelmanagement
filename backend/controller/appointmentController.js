@@ -107,11 +107,17 @@ export const getAllAppointments = catchAsyncErrors(async (req, res, next) => {
 });
 export const updateAppointmentStatus = catchAsyncErrors(
   async (req, res, next) => {
-    const { id } = req.params;//as example /user/123 then id is 123
+    const { id } = req.params;
     let appointment = await Appointment.findById(id);
     if (!appointment) {
       return next(new ErrorHandler("Appointment not found!", 404));
     }
+
+    // If status is being updated to Accepted, set hasVisited to true
+    if (req.body.status === "Accepted") {
+      req.body.hasVisited = true;
+    }
+
     appointment = await Appointment.findByIdAndUpdate(id, req.body, {
       new: true,
       runValidators: true,

@@ -34,7 +34,11 @@ const Dashboard = () => {
       setAppointments((prevAppointments) =>
         prevAppointments.map((appointment) =>
           appointment._id === appointmentId
-            ? { ...appointment, status }  //means that not change the previous data and add present data also
+            ? { 
+                ...appointment, 
+                status,
+                hasVisited: status === "Accepted" ? true : appointment.hasVisited 
+              }
             : appointment
         )
       );

@@ -39,6 +39,14 @@ const Navbar = () => {
             <Link to={"/about"} onClick={() => setShow(!show)}>
               About Us
             </Link>
+            <a 
+              href="http://localhost:5173" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              onClick={() => setShow(!show)}
+            >
+              Dashboard
+            </a>
           </div>
           {user ? (
             <button className="logoutBtn btn" onClick={handleLogout}>
