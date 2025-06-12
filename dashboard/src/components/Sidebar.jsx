@@ -1,4 +1,3 @@
-
 import React, { useContext, useState } from "react";
 import { TiHome } from "react-icons/ti";
 import { RiLogoutBoxFill } from "react-icons/ri";
@@ -19,7 +18,7 @@ const Sidebar = () => {
 
   const handleLogout = async () => {
     await axios
-      .get("http://localhost:4000/api/v1/user/admin/logout", {
+      .get("https://hostelmanagement-v7e3.onrender.com/api/v1/user/admin/logout", {
         withCredentials: true,
       })
       .then((res) => {

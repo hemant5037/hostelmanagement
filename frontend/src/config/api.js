@@ -1,4 +1,4 @@
-const API_BASE_URL = "http://localhost:4000";
+const API_BASE_URL = "https://hostelmanagement-v7e3.onrender.com";
 
 export const API_ENDPOINTS = {
   // Auth endpoints

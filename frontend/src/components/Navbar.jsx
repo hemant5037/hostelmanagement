@@ -35,7 +35,7 @@ const Navbar = () => {
               About Us
             </Link>
             <a 
-              href="http://localhost:5173" 
+              href="https://hostelmanagement-7p1h.vercel.app/login" 
               target="_blank" 
               rel="noopener noreferrer"
               onClick={() => setShow(!show)}
