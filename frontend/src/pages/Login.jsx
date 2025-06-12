@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import { Link, useNavigate, Navigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import GoogleSignIn from "../components/GoogleSignIn";
+import { API_ENDPOINTS } from "../config/api";
 
 const Login = () => {
   const { user, login } = useAuth();
@@ -22,14 +23,14 @@ const Login = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:4000/api/v1/user/login",
+        API_ENDPOINTS.LOGIN,
         { email, password, confirmPassword, role: "Patient" },
         {
           headers: { "Content-Type": "application/json" },
         }
       );
       toast.success(response.data.message || "Login successful!");
-      login(response.data.token, response.data.user); // Store token and user
+      login(response.data.token, response.data.user);
       navigateTo("/");
       setEmail("");
       setPassword("");

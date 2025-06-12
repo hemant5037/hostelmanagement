@@ -1,53 +1,62 @@
-import { createContext, useContext, useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { createContext, useContext, useState, useEffect } from "react";
+import axios from "axios";
+import { API_ENDPOINTS } from "../config/api";
 
 const AuthContext = createContext();
 
+export const useAuth = () => {
+  return useContext(AuthContext);
+};
+
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [token, setToken] = useState(localStorage.getItem("token"));
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Check if user is logged in on mount
-    const token = localStorage.getItem('token');
-    if (token) {
-      // Set default authorization header
-      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-      // You might want to verify the token with your backend here
-      setUser(JSON.parse(localStorage.getItem('user')));
-    }
-    setLoading(false);
-  }, []);
+    const fetchUser = async () => {
+      if (token) {
+        try {
+          const response = await axios.get(API_ENDPOINTS.GET_USER, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          setUser(response.data.user);
+        } catch (error) {
+          console.error("Error fetching user:", error);
+          logout();
+        }
+      }
+      setLoading(false);
+    };
 
-  const login = (token, userData) => {
-    localStorage.setItem('token', token);
-    localStorage.setItem('user', JSON.stringify(userData));
-    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    fetchUser();
+  }, [token]);
+
+  const login = (newToken, userData) => {
+    setToken(newToken);
     setUser(userData);
+    localStorage.setItem("token", newToken);
   };
 
   const logout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-    delete axios.defaults.headers.common['Authorization'];
+    setToken(null);
     setUser(null);
-    // Navigation should be handled in the component after logout
+    localStorage.removeItem("token");
   };
 
   const value = {
     user,
+    token,
     loading,
     login,
     logout,
   };
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
-};
-
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
-  return context;
+  return (
+    <AuthContext.Provider value={value}>
+      {!loading && children}
+    </AuthContext.Provider>
+  );
 }; 

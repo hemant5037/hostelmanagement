@@ -1,45 +1,44 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import GoogleSignIn from "../components/GoogleSignIn";
+import { API_ENDPOINTS } from "../config/api";
 
 const Register = () => {
-  const { user } = useAuth();
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const { user, login } = useAuth();
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [nic, setNic] = useState("");
-  const [dob, setDob] = useState("");
-  const [gender, setGender] = useState("");
   const [password, setPassword] = useState("");
-
+  const [confirmPassword, setConfirmPassword] = useState("");
   const navigateTo = useNavigate();
 
-  const handleRegistration = async (e) => {
+  useEffect(() => {
+    if (user) {
+      toast.info("You are already logged in!");
+    }
+  }, [user]);
+
+  const handleRegister = async (e) => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:4000/api/v1/user/patient/register",
-        { firstName, lastName, email, phone, nic, dob, gender, password },
+        API_ENDPOINTS.REGISTER,
+        { name, email, password, confirmPassword, role: "Patient" },
         {
           headers: { "Content-Type": "application/json" },
         }
       );
-      toast.success(response.data.message);
-      navigateTo("/login");
-      setFirstName("");
-      setLastName("");
+      toast.success(response.data.message || "Registration successful!");
+      login(response.data.token, response.data.user);
+      navigateTo("/");
+      setName("");
       setEmail("");
-      setPhone("");
-      setNic("");
-      setDob("");
-      setGender("");
       setPassword("");
+      setConfirmPassword("");
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.error(error.response?.data?.message || "Registration failed!");
     }
   };
 
@@ -57,20 +56,13 @@ const Register = () => {
           By creating your account, you can easily book appointments, access your medical history, receive health 
           updates, and stay connected with our expert team—anytime, from anywhere.
         </p>
-        <form onSubmit={handleRegistration}>
+        <form onSubmit={handleRegister}>
           <div>
             <input
               type="text"
-              placeholder="First Name"
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
-              required
-            />
-            <input
-              type="text"
-              placeholder="Last Name"
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
+              placeholder="Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
               required
             />
           </div>
@@ -82,45 +74,22 @@ const Register = () => {
               onChange={(e) => setEmail(e.target.value)}
               required
             />
-            <input
-              type="number"
-              placeholder="Mobile Number"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-              required
-            />
           </div>
           <div>
-            <input
-              type="number"
-              placeholder="NIC"
-              value={nic}
-              onChange={(e) => setNic(e.target.value)}
-              required
-            />
-            <input
-              type="date"
-              placeholder="Date of Birth"
-              value={dob}
-              onChange={(e) => setDob(e.target.value)}
-              required
-            />
-          </div>
-          <div>
-            <select 
-              value={gender} 
-              onChange={(e) => setGender(e.target.value)}
-              required
-            >
-              <option value="">Select Gender</option>
-              <option value="Male">Male</option>
-              <option value="Female">Female</option>
-            </select>
             <input
               type="password"
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+          <div>
+            <input
+              type="password"
+              placeholder="Confirm Password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
               required
             />
           </div>
