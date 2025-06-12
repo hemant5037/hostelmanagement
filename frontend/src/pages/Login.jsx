@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
-import { Link, useNavigate, Navigate } from "react-router-dom";
+import { Link, useNavigate, Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import GoogleSignIn from "../components/GoogleSignIn";
 import { API_ENDPOINTS } from "../config/api";
@@ -12,12 +12,27 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const navigateTo = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     if (user) {
       toast.info("You are already logged in!");
     }
-  }, [user]);
+    // Show success or error messages from URL
+    const params = new URLSearchParams(location.search);
+    const success = params.get('success');
+    const error = params.get('error');
+    if (success) {
+      toast.success(success);
+      params.delete('success');
+      navigateTo({ search: params.toString() }, { replace: true });
+    }
+    if (error) {
+      toast.error(error);
+      params.delete('error');
+      navigateTo({ search: params.toString() }, { replace: true });
+    }
+  }, [user, location.search, navigateTo]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -27,6 +42,7 @@ const Login = () => {
         { email, password, confirmPassword, role: "Patient" },
         {
           headers: { "Content-Type": "application/json" },
+          withCredentials: true
         }
       );
       toast.success(response.data.message || "Login successful!");

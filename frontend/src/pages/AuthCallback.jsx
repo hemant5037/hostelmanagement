@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { jwtDecode } from 'jwt-decode';
 import { toast } from 'react-toastify';
 
 const AuthCallback = () => {
@@ -14,30 +13,24 @@ const AuthCallback = () => {
     const error = searchParams.get('error');
 
     if (error) {
-      toast.error('Google authentication failed!');
-      navigate('/login?error=auth_failed');
+      toast.error(error || 'Google authentication failed!');
+      navigate('/login');
       return;
     }
 
     if (token) {
       try {
-        // Decode the token to get user information
-        const decodedToken = jwtDecode(token);
-        const userData = {
-          id: decodedToken.id,
-          email: decodedToken.email,
-          name: decodedToken.name
-        };
-        login(token, userData);
+        // Store the token and redirect to home
+        login(token);
         toast.success('Login successful!');
-        navigate('/'); // Redirect to home page after successful login
+        navigate('/');
       } catch (error) {
-        toast.error('Invalid token received from Google.');
-        navigate('/login?error=invalid_token');
+        toast.error('Failed to process login.');
+        navigate('/login');
       }
     } else {
       toast.error('No token received from Google.');
-      navigate('/login?error=no_token');
+      navigate('/login');
     }
     // eslint-disable-next-line
   }, []); // Only run once

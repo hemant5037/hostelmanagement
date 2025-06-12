@@ -23,23 +23,29 @@ const userSchema = new mongoose.Schema({
   phone: {
     type: String,
     required: function() {
-      return !this.googleId; // Only required if not a Google user
+      return !this.isGoogleUser; // Only required if not a Google user
     },
-    minLength: [10, "Phone Number Must Contain Exact 10 Digits!"],
-    maxLength: [10, "Phone Number Must Contain Exact 10 Digits!"],
+    validate: {
+      validator: function(v) {
+        if (!this.isGoogleUser) {
+          return /^\d{10}$/.test(v);
+        }
+        return true;
+      },
+      message: "Phone Number Must Contain Exact 10 Digits!"
+    }
   },
   nic: {
     type: String,
     required: function() {
-      return !this.googleId; // Only required if not a Google user
+      return !this.isGoogleUser; // Only required if not a Google user
     },
     validate: {
       validator: function(v) {
-        // Only enforce 5 digits for non-Google users
-        if (!this.googleId) {
+        if (!this.isGoogleUser) {
           return /^\d{5}$/.test(v);
         }
-        return true; // Allow any value for Google users
+        return true;
       },
       message: "NIC Must Contain Only 5 Digits!"
     }
@@ -47,20 +53,20 @@ const userSchema = new mongoose.Schema({
   dob: {
     type: Date,
     required: function() {
-      return !this.googleId; // Only required if not a Google user
+      return !this.isGoogleUser; // Only required if not a Google user
     },
   },
   gender: {
     type: String,
     required: function() {
-      return !this.googleId; // Only required if not a Google user
+      return !this.isGoogleUser; // Only required if not a Google user
     },
     enum: ["Male", "Female", "Other"],
   },
   password: {
     type: String,
     required: function() {
-      return !this.googleId; // Only required if not a Google user
+      return !this.isGoogleUser; // Only required if not a Google user
     },
     minLength: [8, "Password Must Contain At Least 8 Characters!"],
     select: false,
@@ -89,15 +95,26 @@ const userSchema = new mongoose.Schema({
   isGoogleUser: {
     type: Boolean,
     default: false,
+  },
+  lastLogin: {
+    type: Date,
+    default: Date.now,
   }
 });
 
+// Only hash password if it exists and is modified
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password") || !this.password) {
     return next();
   }
   this.password = await bcrypt.hash(this.password, 10);
 });
+
+// Update lastLogin timestamp on successful login
+userSchema.methods.updateLastLogin = function() {
+  this.lastLogin = new Date();
+  return this.save();
+};
 
 userSchema.methods.comparePassword = async function (enteredPassword) {
   if (!this.password) return false;
@@ -109,7 +126,8 @@ userSchema.methods.generateJsonWebToken = function () {
     { 
       id: this._id,
       email: this.email,
-      role: this.role
+      role: this.role,
+      isGoogleUser: this.isGoogleUser
     }, 
     process.env.JWT_SECRET_KEY || 'your-secret-key', 
     {

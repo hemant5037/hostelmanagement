@@ -2,8 +2,6 @@ import passport from 'passport';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import { User } from '../models/userSchema.js';
 import { config } from 'dotenv';
-import session from 'express-session';
-import express from 'express';
 
 // Load environment variables
 config({ path: "./config/config.env" });
@@ -13,16 +11,25 @@ if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
   process.exit(1);
 }
 
-const app = express();
+passport.serializeUser((user, done) => {
+  done(null, user.id);
+});
 
-
+passport.deserializeUser(async (id, done) => {
+  try {
+    const user = await User.findById(id);
+    done(null, user);
+  } catch (error) {
+    done(error, null);
+  }
+});
 
 passport.use(
   new GoogleStrategy(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: 'http://localhost:4000/api/auth/google/callback',
+      callbackURL: process.env.GOOGLE_CALLBACK_URL,
       scope: ['profile', 'email'],
       passReqToCallback: true
     },
@@ -44,6 +51,7 @@ passport.use(
           const firstName = nameParts[0];
           const lastName = nameParts.slice(1).join(' ');
 
+          // Only create with essential fields from Google
           user = await User.create({
             firstName,
             lastName,
@@ -51,16 +59,16 @@ passport.use(
             googleId: profile.id,
             role: 'Patient',
             isGoogleUser: true,
-            avatar: profile.photos?.[0]?.value || '',
-            phone: '0000000000',
-            nic: '0000000000000',
-            dob: new Date(),
-            gender: 'Other',
-            password: Math.random().toString(36).slice(-8),
+            avatar: profile.photos?.[0]?.value || ''
           });
         } else if (!user && mode === 'login') {
           // If user doesn't exist and mode is login, return error
-          return done(new Error('Account not found. Please register first.'), null);
+          return done(new Error('Account not found. Please signup first.'), null);
+        }
+
+        // Update last login timestamp
+        if (user && typeof user.updateLastLogin === 'function') {
+          await user.updateLastLogin();
         }
 
         return done(null, user);

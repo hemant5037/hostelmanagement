@@ -467,10 +467,9 @@ nav .navLinks .links a {
   font-size: 20px;
   font-weight: 600;
   letter-spacing: 1.4px;
-  transition: color 0.3s ease;
 }
 nav .navLinks .links a:hover {
-  color: #9083d5;
+  color: #000;
   transition: 0.3s;
   cursor: pointer;
 }

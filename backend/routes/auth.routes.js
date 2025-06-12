@@ -1,7 +1,7 @@
 import express from 'express';
 import passport from 'passport';
-import jwt from 'jsonwebtoken';
 import { User } from '../models/userSchema.js';
+import { generateToken } from '../utils/jwtToken.js';
 
 const router = express.Router();
 
@@ -15,25 +15,20 @@ router.get('/google',
 );
 
 router.get('/google/callback',
-  passport.authenticate('google', { session: false }),
-  async (req, res) => {
-    try {
-      // Create JWT token
-      const token = jwt.sign(
-        { 
-          id: req.user._id,
-          email: req.user.email,
-          role: req.user.role
-        },
-        process.env.JWT_SECRET_KEY || 'your-secret-key',
-        { expiresIn: process.env.JWT_EXPIRES || '1d' }
-      );
-
-      // Redirect to frontend with token
-      res.redirect(`${process.env.FRONTEND_URL || 'http://localhost:5174'}/auth/callback?token=${token}`);
-    } catch (error) {
-      res.redirect(`${process.env.FRONTEND_URL || 'http://localhost:5174'}/login?error=auth_failed`);
-    }
+  (req, res, next) => {
+    passport.authenticate('google', { session: false }, (err, user) => {
+      if (err || !user) {
+        // Redirect to frontend login with error message
+        return res.redirect(`${process.env.FRONTEND_URL}/login?error=${encodeURIComponent(err?.message || 'Account not found. Please signup first.')}`);
+      }
+      // If this is a registration, redirect to login with a message
+      if (req.session.mode === 'register') {
+        return res.redirect(`${process.env.FRONTEND_URL}/login?success=${encodeURIComponent('Signup successful! Please login through the login page.')}`);
+      }
+      // Generate token and redirect to frontend
+      const token = user.generateJsonWebToken();
+      return res.redirect(`${process.env.FRONTEND_URL}/auth/callback?token=${token}`);
+    })(req, res, next);
   }
 );
 
@@ -46,7 +41,7 @@ router.post('/login', async (req, res) => {
     const user = await User.findOne({ email });
     
     if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(404).json({ message: 'Account not found. Please signup first.' });
     }
 
     // Check if user was registered with Google
@@ -60,18 +55,8 @@ router.post('/login', async (req, res) => {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
 
-    // Create JWT token
-    const token = jwt.sign(
-      { 
-        id: user._id,
-        email: user.email,
-        role: user.role
-      },
-      process.env.JWT_SECRET_KEY || 'your-secret-key',
-      { expiresIn: process.env.JWT_EXPIRES || '1d' }
-    );
-
-    res.json({ token, user: { id: user._id, email: user.email, role: user.role } });
+    // Generate token using the same function as Google auth
+    generateToken(user, "Login Successful!", 200, res);
   } catch (error) {
     res.status(500).json({ message: 'Server error' });
   }
