@@ -15,6 +15,27 @@ import authRouter from "./routes/auth.routes.js";
 const app = express();
 config({ path: "./config/config.env" });
 
+// CORS middleware should be first
+app.use(cors({
+  origin: [
+    'https://hostelmanagement-pi.vercel.app',
+    'https://hostelmanagement-7p1h.vercel.app'
+  ],
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+// Explicit preflight handler
+app.options('*', cors({
+  origin: [
+    'https://hostelmanagement-pi.vercel.app',
+    'https://hostelmanagement-7p1h.vercel.app'
+  ],
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
 // Add express-session middleware before routes
 app.use(
   session({
@@ -27,16 +48,6 @@ app.use(
 
 // Initialize Passport
 app.use(passport.initialize());
-
-app.use(cors({
-  origin: [
-    'https://hostelmanagement-pi.vercel.app',
-    'https://hostelmanagement-7p1h.vercel.app'
-  ],
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
-}));
 
 app.use(cookieParser());
 app.use(fileUpload({
