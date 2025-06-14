@@ -1,9 +1,4 @@
-# 🏥 Hospital Management System
 
-A modern, full-stack hospital management system built with React, Node.js, and Express. This application helps hospitals manage appointments, doctors, patients, and administrative tasks efficiently.
-
-## ✨ Features
-# 🏥 Hospital Management System
 
 A modern, full-stack hospital management system built with React, Node.js, and Express. This application helps hospitals manage appointments, doctors, patients, and administrative tasks efficiently.
 
