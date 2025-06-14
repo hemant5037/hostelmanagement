@@ -15,10 +15,12 @@ cloudinary.v2.config({
 });
 
 // Passport setup
+console.log("Mounting passport.initialize()");
 app.use(passport.initialize());
 
-// Auth Routes
-app.use("/api/auth", authRoutes);
+// Remove duplicate Auth Routes mounting from server.js
+// console.log("Mounting /api/auth");
+// app.use("/api/auth", authRoutes);
 
 // Start server
 app.listen(process.env.PORT || 4000, () => {
