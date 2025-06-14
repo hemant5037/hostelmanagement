@@ -14,7 +14,7 @@ import { useNavigate } from "react-router-dom";
 const Sidebar = () => {
   const [show, setShow] = useState(false);
 
-  const { isAuthenticated, setIsAuthenticated } = useContext(Context);
+  const { isAuthenticated, setIsAuthenticated, setAdmin } = useContext(Context);
 
   const handleLogout = async () => {
     await axios
@@ -24,6 +24,8 @@ const Sidebar = () => {
       .then((res) => {
         toast.success(res.data.message);
         setIsAuthenticated(false);
+        setAdmin(null);
+        window.location.href = "/login";
       })
       .catch((err) => {
         toast.error(err.response.data.message);
