@@ -26,7 +26,7 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
 // Explicit preflight handler
-app.options('*', cors({
+app.options(/(.*)/, cors({
   origin: [
     'https://hostelmanagement-pi.vercel.app',
     'https://hostelmanagement-7p1h.vercel.app'
