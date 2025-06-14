@@ -206,9 +206,11 @@ export const getUserDetails = catchAsyncErrors(async (req, res, next) => {
 export const logoutAdmin = catchAsyncErrors(async (req, res, next) => {
   res
     .status(201)
-    .cookie("adminToken", "", {//cookie-ko remove renge ab
+    .cookie("adminToken", "", {
       httpOnly: true,
-      expires: new Date(Date.now()),
+      expires: new Date(0),
+      sameSite: 'None',
+      secure: true
     })
     .json({
       success: true,
