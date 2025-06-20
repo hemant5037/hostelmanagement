@@ -28,6 +28,8 @@ body {
 }
 .purple-btn:hover {
   background: #357ABD;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 p,
 span,
@@ -225,6 +227,8 @@ h6 {
 }
 .form-component button:hover {
   background: #357ABD;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 .form-component .wrapper {
   display: flex;
@@ -426,8 +430,13 @@ footer .content div:last-child div svg {
   margin-bottom: 30px;
 }
 .card {
+  overflow: hidden;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
   position: relative;
-  border-radius: 8px;
   flex: 1;
   display: flex;
   justify-content: center;
@@ -438,6 +447,10 @@ footer .content div:last-child div svg {
   min-height: 360px;
   margin: 0 10px;
   text-decoration: none;
+}
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
 }
 .card img {
   position: absolute;
@@ -500,9 +513,24 @@ nav .navLinks .links a {
   color: #333;
   font-weight: 500;
   transition: color 0.3s ease;
+  position: relative;
+  padding-bottom: 5px;
+}
+nav .navLinks .links a::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: #4A90E2;
+  transition: width 0.3s ease;
 }
 nav .navLinks .links a:hover {
   color: #4A90E2;
+}
+nav .navLinks .links a:hover::after {
+  width: 100%;
 }
 nav .btn {
   padding: 8px 20px;
@@ -620,4 +648,7 @@ footer .logo-img {
   width: 100%;
   max-width: 200px;
   margin-bottom: 20px;
+}
+html {
+  scroll-behavior: smooth;
 }
