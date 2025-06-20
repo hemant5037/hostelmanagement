@@ -7,7 +7,8 @@
   font-family: "Montserrat", sans-serif;
 }
 body {
-  background: #f0f2f5;
+  background: #121212;
+  color: #e0e0e0;
 }
 .btn {
   padding: 7px 20px;
@@ -35,7 +36,10 @@ p,
 span,
 a {
   font-size: 18px;
-  color: #555;
+  color: #a9a9a9;
+}
+h1, h2, h3, h4, h5, h6 {
+  color: #ffffff;
 }
 h1 {
   font-size: 36px;
@@ -89,6 +93,7 @@ h6 {
   padding-bottom: 120px;
   position: relative;
   align-items: center;
+  animation: fadeIn 1s ease-out forwards;
 }
 .hero .banner {
   flex: 1;
@@ -103,7 +108,7 @@ h6 {
   font-size: 40px;
 }
 .hero .banner p {
-  color: #495057;
+  color: #b0b0b0;
   letter-spacing: 1px;
   line-height: 1.6;
 }
@@ -169,9 +174,10 @@ h6 {
 .form-component {
   padding-top: 40px;
   padding-bottom: 60px;
+  animation: fadeIn 1s ease-out forwards;
 }
 .form-component h2 {
-  color: #333;
+  color: #ffffff;
   letter-spacing: 2px;
   margin-bottom: 30px;
   text-align: center;
@@ -202,15 +208,17 @@ h6 {
   font-size: 16px;
   padding: 12px 20px;
   border-radius: 8px;
-  border: 1px solid #ced4da;
+  border: 1px solid #444;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  background: #2a2a2e;
+  color: #e0e0e0;
 }
 .form-component form input:focus,
 .form-component form select:focus,
 .form-component form textarea:focus {
   outline: none;
   border-color: #4A90E2;
-  box-shadow: 0 0 5px rgba(74, 144, 226, 0.5);
+  box-shadow: 0 0 8px rgba(74, 144, 226, 0.6);
 }
 .form-component button {
   padding: 12px 35px;
@@ -290,6 +298,7 @@ h6 {
   gap: 50px;
   padding-top: 40px;
   padding-bottom: 60px;
+  animation: fadeIn 1s ease-out forwards;
 }
 .biography .banner:first-child {
   flex: 1;
@@ -318,6 +327,7 @@ h6 {
 }
 .message-form {
   position: relative;
+  animation: fadeIn 1s ease-out forwards;
 }
 .message-form h2 {
   text-align: center;
@@ -339,8 +349,8 @@ h6 {
   }
 }
 footer {
-  background: #ffffff;
-  color: #333;
+  background: #1c1c1e;
+  color: #e0e0e0;
   padding: 50px 0 0 0;
   margin-top: 50px;
 }
@@ -361,7 +371,7 @@ footer .content div:nth-child(3) {
 footer .content div h4 {
   margin-bottom: 20px;
   font-weight: 700;
-  color: #212529;
+  color: #ffffff;
 }
 footer .content div ul {
   display: flex;
@@ -369,7 +379,7 @@ footer .content div ul {
   gap: 10px;
 }
 footer .content div ul a {
-  color: #555;
+  color: #a9a9a9;
   text-decoration: none;
   transition: color 0.3s ease;
 }
@@ -432,8 +442,8 @@ footer .content div:last-child div svg {
 .card {
   overflow: hidden;
   border-radius: 12px;
-  background: #ffffff;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.04);
+  background: #1c1c1e;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   cursor: pointer;
   position: relative;
@@ -447,10 +457,12 @@ footer .content div:last-child div svg {
   min-height: 360px;
   margin: 0 10px;
   text-decoration: none;
+  opacity: 0;
+  animation: fadeIn 0.5s ease-out forwards;
 }
 .card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.3);
 }
 .card img {
   position: absolute;
@@ -473,6 +485,7 @@ footer .content div:last-child div svg {
   left: 0;
   height: fit-content;
   font-weight: 700;
+  color: #ffffff;
 }
 
 /**********************************************************************************************************************/
@@ -482,9 +495,9 @@ nav {
   left: 0;
   top: 0;
   z-index: 1000;
-  background: #ffffff;
+  background: #1c1c1e;
   padding: 15px 0;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -510,7 +523,7 @@ nav .navLinks .links {
 }
 nav .navLinks .links a {
   text-decoration: none;
-  color: #333;
+  color: #e0e0e0;
   font-weight: 500;
   transition: color 0.3s ease;
   position: relative;
@@ -652,3 +665,24 @@ footer .logo-img {
 html {
   scroll-behavior: smooth;
 }
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.departments .card:nth-child(1) { animation-delay: 0.1s; }
+.departments .card:nth-child(2) { animation-delay: 0.2s; }
+.departments .card:nth-child(3) { animation-delay: 0.3s; }
+.departments .card:nth-child(4) { animation-delay: 0.4s; }
+.departments .card:nth-child(5) { animation-delay: 0.5s; }
+.departments .card:nth-child(6) { animation-delay: 0.6s; }
+.departments .card:nth-child(7) { animation-delay: 0.7s; }
+.departments .card:nth-child(8) { animation-delay: 0.8s; }
+.departments .card:nth-child(9) { animation-delay: 0.9s; }
