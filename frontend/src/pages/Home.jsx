@@ -11,7 +11,7 @@ const Home = () => {
         title={
           "Welcome to Nivora Care Hospital –  Your Partner in Health and Healing"
         }
-        imageUrl={"/dispensary.png"}
+        imageUrl={"/hero.jpg"}
       />
       <Biography imageUrl={"/aboutus.jpg"} />
       <Departments />

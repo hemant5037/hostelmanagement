@@ -586,8 +586,8 @@ input[type="time"]:before {
   margin-right: 0.5em;
 }
 .logo-img{
-  max-width: 300px;
+  width: 150px;
 }
 footer .logo-img{
-  max-width: 250px;
+  width: 100%;
 }
