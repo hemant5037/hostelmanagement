@@ -706,10 +706,6 @@ html {
   align-items: center;
   justify-content: center;
 }
-.logo-img-login {
-  width: 150px;
-  margin-bottom: 20px;
-}
 .login-form {
   background: #1c1c1e;
   padding: 40px;

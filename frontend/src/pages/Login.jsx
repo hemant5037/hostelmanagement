@@ -63,7 +63,6 @@ const Login = () => {
   return (
     <div className="login-page">
       <div className="container form-component login-form">
-        <img src="/logo1.png" alt="logo" className="logo-img-login" />
         <h2>Sign In</h2>
         <p>Please Login To Continue</p>
         <p>
