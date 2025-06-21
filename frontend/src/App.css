@@ -698,3 +698,40 @@ html {
 .about-us-page {
   padding-top: 80px;
 }
+.login-page {
+  padding-top: 120px;
+  padding-bottom: 60px;
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.logo-img-login {
+  width: 150px;
+  margin-bottom: 20px;
+}
+.login-form {
+  background: #1c1c1e;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+  max-width: 500px;
+}
+.register-link {
+  color: #4A90E2;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+.register-link:hover {
+  color: #357ABD;
+}
+.separator .relative {
+  display: none; /* Hiding the complex separator for a cleaner look */
+}
+.separator {
+  text-align: center;
+  margin-top: 20px;
+  color: #a9a9a9;
+  font-size: 16px;
+}
