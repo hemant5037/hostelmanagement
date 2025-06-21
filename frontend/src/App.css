@@ -16,6 +16,7 @@ body {
   border: none;
   font-weight: bold;
   letter-spacing: 2px;
+  cursor: pointer;
 }
 .white-btn {
   background: #fff;
@@ -557,9 +558,13 @@ nav .btn {
 }
 nav .logoutBtn {
   background: linear-gradient(135deg, black, rgb(49, 49, 49));
+  margin: 0 20px;
+  cursor: pointer;
 }
 nav .loginBtn {
   background: linear-gradient(135deg, black, rgb(49, 49, 49));
+  margin: 0 20px;
+  cursor: pointer;
 }
 nav .hamburger {
   display: none;
