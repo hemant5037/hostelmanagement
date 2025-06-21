@@ -61,8 +61,9 @@ const Login = () => {
   }
 
   return (
-    <>
+    <div className="login-page">
       <div className="container form-component login-form">
+        <img src="/logo1.png" alt="logo" className="logo-img-login" />
         <h2>Sign In</h2>
         <p>Please Login To Continue</p>
         <p>
@@ -99,7 +100,7 @@ const Login = () => {
             <p style={{ marginBottom: 0 }}>Not Registered?</p>
             <Link
               to={"/register"}
-              style={{ textDecoration: "none", color: "#271776ca" }}
+              className="register-link"
             >
               Register Now
             </Link>
@@ -109,7 +110,7 @@ const Login = () => {
           </div>
         </form>
         
-        <div className="mt-4">
+        <div className="mt-4 separator">
           <div className="relative">
             <div className="absolute inset-0 flex items-center">
               <div className="w-full border-t border-gray-300"></div>
@@ -124,7 +125,7 @@ const Login = () => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
