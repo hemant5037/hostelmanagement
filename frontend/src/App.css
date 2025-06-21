@@ -695,3 +695,6 @@ html {
 .departments .card:nth-child(7) { animation-delay: 0.7s; }
 .departments .card:nth-child(8) { animation-delay: 0.8s; }
 .departments .card:nth-child(9) { animation-delay: 0.9s; }
+.about-us-page {
+  padding-top: 80px;
+}
