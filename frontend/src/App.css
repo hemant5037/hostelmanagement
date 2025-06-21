@@ -49,20 +49,22 @@ h1 {
 h1 {
   font-size: 42px;
   font-weight: 700;
-  color: #212529;
+  color: #ffffff;
 }
 h2 {
   font-size: 36px;
   font-weight: 700;
-  color: #212529;
+  color: #ffffff;
 }
 h3 {
   font-size: 28px;
   font-weight: 900;
+  color: #ffffff;
 }
 h4 {
   font-size: 24px;
   font-weight: 900;
+  color: #ffffff;
 }
 h5,
 h6 {
@@ -109,7 +111,7 @@ h6 {
   font-size: 40px;
 }
 .hero .banner p {
-  color: #b0b0b0;
+  color: #ffffff;
   letter-spacing: 1px;
   line-height: 1.6;
 }
@@ -184,13 +186,13 @@ h6 {
   text-align: center;
 }
 .form-component h4 {
-  color: #555;
+  color: #ffffff;
   font-weight: 700;
   margin-bottom: 20px;
 }
 .form-component p {
   max-width: 750px;
-  color: gray;
+  color: #a9a9a9;
   margin-bottom: 20px;
 }
 .form-component form {
@@ -316,10 +318,12 @@ h6 {
 .biography .banner h3 {
   font-weight: 700;
   letter-spacing: 3px;
+  color: #ffffff;
 }
 .biography .banner p:first-child {
   font-size: 24px;
   letter-spacing: 2px;
+  color: #ffffff;
 }
 @media (max-width: 925px) {
   .biography {
