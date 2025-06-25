@@ -366,6 +366,7 @@ footer .content {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 40px;
+  padding-top: 32px;
 }
 footer .content div {
   flex: 1;
@@ -431,7 +432,10 @@ footer .content div:last-child div svg {
 @media (max-width: 390px) {
   footer .content div:nth-child(3) ul li {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    gap: 12px;
+    align-items: center;
+    white-space: nowrap;
   }
 }
 
