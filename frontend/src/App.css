@@ -82,7 +82,7 @@ h6 {
   }
 }
 .container {
-  padding: 0 100px;
+  padding: 0 40px;
 }
 @media (max-width: 700px) {
   .container {
@@ -365,7 +365,8 @@ footer hr {
 footer .content {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 40px;
+  gap: 60px;
+  padding-bottom: 40px;
 }
 footer .content div {
   flex: 1;
@@ -381,7 +382,7 @@ footer .content div h4 {
 footer .content div ul {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 18px;
 }
 footer .content div ul a {
   color: #a9a9a9;
@@ -450,7 +451,7 @@ footer .content div:last-child div svg {
   background: #1c1c1e;
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  cursor: pointer;
+  cursor: default;
   position: relative;
   flex: 1;
   display: flex;
