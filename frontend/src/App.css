@@ -365,8 +365,7 @@ footer hr {
 footer .content {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 60px;
-  padding-bottom: 40px;
+  gap: 40px;
 }
 footer .content div {
   flex: 1;
@@ -382,7 +381,7 @@ footer .content div h4 {
 footer .content div ul {
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 10px;
 }
 footer .content div ul a {
   color: #a9a9a9;
@@ -399,7 +398,6 @@ footer .content div ul li span:first-child {
   width: 150px;
   display: inline-block;
 }
-
 footer .content div:last-child div {
   display: flex;
   align-items: center;
