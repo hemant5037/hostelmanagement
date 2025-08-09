@@ -4,12 +4,12 @@ import { Appointment } from "../models/appointmentSchema.js";
 import { User } from "../models/userSchema.js";
 
 export const postAppointment = catchAsyncErrors(async (req, res, next) => {
-  // ✅ Step 1: Check if body exists and is not empty
+  
   if (!req.body || Object.keys(req.body).length === 0) {
     return next(new ErrorHandler("Please Fill Full Form!", 400));
   }
 
-  // ✅ Step 2: Safe to destructure now
+  // Safe to destructure now
   const {
     firstName,
     lastName,
@@ -26,7 +26,7 @@ export const postAppointment = catchAsyncErrors(async (req, res, next) => {
     address,
   } = req.body;
 
-  // ✅ Step 3: Validate required fields
+// Validate required fields
   if (
     !firstName ||
     !lastName ||
@@ -44,7 +44,7 @@ export const postAppointment = catchAsyncErrors(async (req, res, next) => {
     return next(new ErrorHandler("Please Fill Full Form!", 400));
   }
 
-  // ✅ Step 4: Find the doctor
+  // Find the doctor
   const isConflict = await User.find({
     firstName: doctor_firstName,
     lastName: doctor_lastName,
@@ -65,7 +65,7 @@ export const postAppointment = catchAsyncErrors(async (req, res, next) => {
     );
   }
 
-  // ✅ Step 5: Create appointment
+  //  Create appointment
   const doctorId = isConflict[0]._id;
   const patientId = req.user._id;
 
@@ -89,7 +89,7 @@ export const postAppointment = catchAsyncErrors(async (req, res, next) => {
     patientId,
   });
 
-  // ✅ Step 6: Return response
+  //  Return response
   res.status(200).json({
     success: true,
     appointment,
